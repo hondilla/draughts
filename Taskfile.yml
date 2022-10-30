@@ -1,0 +1,19 @@
+version: '3'
+
+env:
+  UID:
+    sh: echo $(id -u)
+  GID:
+    sh: echo $(id -g)
+  PROJECT_NAME: damas
+
+tasks:
+  build:
+    cmds:
+      - UID=$UID GID=$GID docker-compose -f .docker/docker-compose.yml -p $PROJECT_NAME build
+  php:
+    cmds:
+      - UID=$UID GID=$GID docker-compose -f .docker/docker-compose.yml -p $PROJECT_NAME run --rm php {{.CLI_ARGS}}
+  composer:
+    cmds:
+      - UID=$UID GID=$GID docker-compose -f .docker/docker-compose.yml -p $PROJECT_NAME run --rm php composer {{.CLI_ARGS}}
