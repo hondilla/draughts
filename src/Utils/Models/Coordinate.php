@@ -7,8 +7,8 @@ namespace Hondilla\Utils\Models;
 class Coordinate
 {
     public function __construct(
-        private int $row,
-        private int $column
+        protected int $row,
+        protected int $column
     )
     {
     }
