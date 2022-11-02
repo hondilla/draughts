@@ -1,28 +1,15 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Hondilla\Utils\Models;
 
-abstract class SquareBoundedCoordinate
+abstract class SquareBoundedCoordinate extends Coordinate
 {
-    private Coordinate $adaptee;
-
-    public function __construct(int $row, int $column)
-    {
-        $this->adaptee = new ConcreteCoordinate($row, $column);
-
-        assert($this->isValid());
-    }
-
-    public function isNull(): bool
-    {
-        return $this->adaptee->isNull();
-    }
-
     public function isValid(): bool
     {
-        assert(!$this->adaptee->isNull());
-        return $this->getLimits()->isIncluded($this->adaptee->getRow())
-            && $this->getLimits()->isIncluded($this->adaptee->getColumn());
+        return $this->getLimits()->isIncluded($this->getRow())
+            && $this->getLimits()->isIncluded($this->getColumn());
     }
 
     public function getLimits(): ClosedInterval
@@ -32,51 +19,44 @@ abstract class SquareBoundedCoordinate
 
     abstract protected function getDimension(): int;
 
-    public function getDirection(SquareBoundedCoordinate $coordinate): Direction
+    public function getDirection(Coordinate $coordinate): Direction
     {
-        if ($this->equals($coordinate) || $this->isNull() || $coordinate->isNull()) {
+        if ($this->equals($coordinate)) {
             return Direction::NULL;
         }
-        return $this->adaptee->getDirection($coordinate->adaptee);
+        return $this->getDirection($coordinate);
     }
 
-    public function getVerticalDistance(SquareBoundedCoordinate $coordinate): int {
-		assert(!$this->adaptee->isNull());
-
-		return $this->adaptee->getVerticalDistance(new ConcreteCoordinate($coordinate->getRow(), $coordinate->getColumn()));
-	}
-
-    public function sum(ConcreteCoordinate $coordinate): void
+    public function getVerticalDistance(Coordinate $coordinate): int
     {
-        assert(!$this->adaptee->isNull());
-        $this->adaptee->sum(new ConcreteCoordinate($coordinate->getRow(), $coordinate->getColumn()));
+        return $this->getVerticalDistance(new Coordinate($coordinate->getRow(), $coordinate->getColumn()));
+    }
+
+    public function sum(Coordinate $coordinate): void
+    {
+        $this->sum(new Coordinate($coordinate->getRow(), $coordinate->getColumn()));
     }
 
     public function random(): void
     {
-        $this->adaptee = new ConcreteCoordinate(
-            random_int(0, $this->getDimension()),
-            random_int(0, $this->getDimension())
-        );
+        $row = random_int(0, $this->getDimension());
+        $column = random_int(0, $this->getDimension());
     }
 
     public function equals(object $obj): bool
     {
-        if ($this === $obj) { return true; }
-        if (get_class($this) !== get_class($obj)) { return false; }
-        if ($this->adaptee !== $obj->adaptee) { return false; }
+        if ($this === $obj) {
+            return true;
+        }
+        if (get_class($this) !== get_class($obj)) {
+            return false;
+        }
+        if ($this->getRow() !== $obj->getRow()) {
+            return false;
+        }
+        if ($this->getColumn() !== $obj->getColumn()) {
+            return false;
+        }
         return true;
-    }
-
-    public function getRow(): int
-    {
-        assert(!$this->adaptee->isNull());
-        return $this->adaptee->getRow();
-    }
-
-    public function getColumn(): int
-    {
-        assert(!$this->adaptee->isNull());
-        return $this->adaptee->getColumn();
     }
 }

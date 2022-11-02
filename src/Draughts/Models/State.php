@@ -8,7 +8,16 @@ class State
 
     public function next(): void
     {
-        assert($this->stateValue !== StateValue::EXIT);
-		$this->stateValue = StateValue::cases()[$this->stateValue->ordinal() + 1];
+        $this->stateValue = StateValue::cases()[$this->stateValue->ordinal() + 1];
+    }
+
+    public function reset(): void
+    {
+        $this->stateValue = StateValue::INITIAL;
+    }
+
+    public function getValueState(): StateValue
+    {
+        return $this->stateValue;
     }
 }

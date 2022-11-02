@@ -11,5 +11,12 @@ enum StateValue
 
     public function ordinal(): int
     {
+        foreach (self::cases() as $i => $case) {
+            if ($this === $case) {
+                return $i;
+            }
+        }
+        return -1;
     }
+
 }

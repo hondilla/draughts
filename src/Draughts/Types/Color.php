@@ -15,16 +15,6 @@ enum Color
         return self::cases()[$ordinal];
     }
 
-    public static function blackRowsInterval(): ClosedInterval
-    {
-        return new ClosedInterval(0, 2);
-    }
-
-    public static function whiteRowsInterval(): ClosedInterval
-    {
-        return new ClosedInterval(5, 7);
-    }
-
     public static function getInitialColor(Coordinate $coordinate): Color
     {
         if ($coordinate->isInitialPiecePosition()) {
@@ -38,6 +28,16 @@ enum Color
         return self::NULL;
     }
 
+    private static function blackRowsInterval(): ClosedInterval
+    {
+        return new ClosedInterval(0, 2);
+    }
+
+    private static function whiteRowsInterval(): ClosedInterval
+    {
+        return new ClosedInterval(5, 7);
+    }
+
     public function getInitial(): string
     {
         if ($this->isNull()) {
@@ -46,27 +46,34 @@ enum Color
         return strtolower($this->name)[0];
     }
 
+    public function isNull(): bool
+    {
+        return $this === self::NULL;
+    }
+
     public function opposite(): Color
     {
-        assert(!$this->isNull());
-
         if ($this->equals(self::BLACK)) {
             return self::WHITE;
         }
         return self::BLACK;
     }
 
-    public function isNull(): bool
-    {
-        return $this === self::NULL;
-    }
-
     public function equals(object $obj): bool
     {
-        if ($this === $obj) { return true; }
-        if (get_class($this) !== get_class($obj)) { return false; }
-        if (self::BLACK !== $obj) { return false; }
-        if (self::WHITE !== $obj) { return false; }
+        if ($this === $obj) {
+            return true;
+        }
+        if (get_class($this) !== get_class($obj)) {
+            return false;
+        }
+        if (self::BLACK !== $obj) {
+            return false;
+        }
+        if (self::WHITE !== $obj) {
+            return false;
+        }
         return true;
     }
+
 }

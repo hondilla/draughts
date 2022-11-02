@@ -1,8 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Hondilla\Utils\Models;
 
-final class ClosedInterval {
+class ClosedInterval
+{
     public function __construct(
         private readonly int $min,
         private readonly int $max
@@ -22,10 +25,18 @@ final class ClosedInterval {
 
     public function equals(object $obj): bool
     {
-        if ($this === $obj) { return true; }
-        if (get_class($this) !== get_class($obj)) { return false; }
-        if ($this->min !== $obj->min) { return false; }
-        if ($this->max !== $obj->max) { return false; }
+        if ($this === $obj) {
+            return true;
+        }
+        if (get_class($this) !== get_class($obj)) {
+            return false;
+        }
+        if ($this->min !== $obj->min) {
+            return false;
+        }
+        if ($this->max !== $obj->max) {
+            return false;
+        }
         return true;
     }
 }

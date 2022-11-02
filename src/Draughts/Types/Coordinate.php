@@ -13,8 +13,33 @@ class Coordinate extends SquareBoundedCoordinate
         return ($this->getRow() + $this->getColumn()) % 2 !== 0;
     }
 
-    protected function getDimension(): int
+    public function getOrthogonalVector(Coordinate $coordinate): Coordinate
     {
-        return static::$dimension;
+        return new Coordinate(
+            $coordinate->getRow() > $this->getRow() ? 1 : -1,
+            $coordinate->getColumn() > $this->getColumn() ? 1 : -1
+        );
+    }
+
+    public function getDiagonalCoordinates(Coordinate $orthogonalVector): array
+    {
+        $diagonalCoordinates = [];
+        $coordinate = $this->clone();
+        $coordinate->sum($orthogonalVector);
+        for ($i = 0; $i < $this->getDimension() && $coordinate->isValid(); $i++) {
+            $diagonalCoordinates[$i] = $coordinate->clone();
+            $coordinate->sum($orthogonalVector);
+        }
+        return $diagonalCoordinates;
+    }
+
+    public function clone(): Coordinate
+    {
+        return new Coordinate($this->getRow(), $this->getColumn());
+    }
+
+    public function getDimension(): int
+    {
+        return self::$dimension;
     }
 }

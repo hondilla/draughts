@@ -2,14 +2,8 @@
 
 namespace Hondilla\Utils\Models;
 
-class ConcreteCoordinate implements Coordinate
+class ConcreteCoordinate extends Coordinate
 {
-    public function __construct(
-        private int $row,
-        private int $column
-    ) {
-    }
-
     public function isNull(): bool
     {
         return false;
