@@ -14,9 +14,9 @@ class YesNoDialog
 	private static string $SUFFIX = "? (" .
 		YesNoDialog::$AFFIRMATIVE . "/" .
 		YesNoDialog::$NEGATIVE . "): ";
-	private static string $MESSAGE = 'The value must be "' +
-		YesNoDialog::$AFFIRMATIVE + '" or "' +
-		YesNoDialog::$NEGATIVE + "'";
+	private static string $MESSAGE = 'The value must be "' .
+		YesNoDialog::$AFFIRMATIVE . '" or "' .
+		YesNoDialog::$NEGATIVE . "'";
 	private string $answer;
 
 	public function read(String $message): void

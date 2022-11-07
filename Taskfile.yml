@@ -2,9 +2,9 @@ version: '3'
 
 env:
   UID:
-    sh: echo '1000'
+    sh: echo $(id -u)
   GID:
-    sh: echo '1000'
+    sh: echo $(id -g)
   PROJECT_NAME: damas
 
 tasks:
