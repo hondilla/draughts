@@ -4,27 +4,24 @@ namespace Tests\Draughts\Types;
 
 use Hondilla\Draughts\Types\Color;
 use Hondilla\Draughts\Types\Coordinate;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
-//use function Hamcrest\Core\Is;
 
 class ColorTest extends TestCase
 {
-    public function testGet()
+    public function testGivenIndexWhenGetThenColor()
     {
-        //$this->assertThat(Color::get(0), is(Color::WHITE));
-        $this->assertEquals(Color::WHITE, Color::get(0));
-        $this->assertEquals(Color::BLACK, Color::get(1));
-        $this->assertEquals(Color::NULL, Color::get(2));
+        assertThat(Color::WHITE, is(equalTo(Color::get(0))));
+        assertThat(Color::BLACK, is(equalTo(Color::get(1))));
+        assertThat(Color::NULL, is(equalTo(Color::get(2))));
     }
 
-    public function testGetInitialColor()
+    public function testGivenCoordinateWhenInitialColorThenColor()
     {
-        var_dump((new Coordinate(4, 5))->isInitialPiecePosition());
-        $this->assertEquals(Color::BLACK, Color::getInitialColor(new Coordinate(0, 1)));
-        $this->assertEquals(Color::WHITE, Color::getInitialColor(new Coordinate(6, 3)));
-        $this->assertEquals(Color::NULL, Color::getInitialColor(new Coordinate(3, 4)));
-        $this->assertEquals(Color::NULL, Color::getInitialColor(new Coordinate(4, 5)));
+        assertThat(Color::getInitialColor(new Coordinate(0, 1)), is(equalTo(Color::BLACK)));
+        assertThat(Color::getInitialColor(new Coordinate(6, 3)), is(equalTo(Color::WHITE)));
+        assertThat(Color::getInitialColor(new Coordinate(3, 4)), is(equalTo(Color::NULL)));
+        assertThat(Color::getInitialColor(new Coordinate(4, 5)), is(equalTo(Color::NULL)));
     }
 
     public function testGivenNullThenEmptyInitial()
