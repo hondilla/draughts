@@ -8,10 +8,6 @@ class AssertThatTest extends TestCase
 {
     public function test(): void
     {
-        //phpunit nativo
-        $this->assertThat(6, $this->equalTo(6));
-        $this->assertThat(6, $this->logicalNot($this->equalTo(5)));
-
         //hamcrest
         assertThat(6, is(equalTo(6)));
         assertThat(6, not(equalTo(5)));
@@ -60,76 +56,53 @@ class AssertThatTest extends TestCase
     {
         $expectedInt = (int)0;
         $resultInt = (int)0;
-        $this->assertEquals($expectedInt, $resultInt);
-        // with assertThat
+
         assertThat($resultInt, is(equalTo($expectedInt)));
         assertThat($resultInt, equalTo($expectedInt));
         assertThat($resultInt, is($expectedInt));
 
         $expectedFloat = (float)0.0;
         $resultFloat = (float)0.0;
-        $this->assertEquals($expectedFloat, $resultFloat, 0.001);
-        // with assertThat
         assertThat((double)$resultFloat, closeTo($expectedFloat, 0.001));
 
         $expectedDouble = (double)0.0;
         $resultDouble = (double)0.0;
-        $this->assertEquals($expectedDouble, $resultDouble, 0.001);
-        // with assertThat
         assertThat($resultDouble, closeTo($expectedDouble, 0.001));
 
         $expectedChar = (string)"0";
         $resultChar = (string)"0";
-        $this->assertEquals($expectedChar, $resultChar);
-        // with assertThat
         assertThat($resultChar, equalTo($expectedChar));
 
         $expectedBoolean = (bool)true;
         $resultBoolean = (bool)true;
-        $this->assertEquals($expectedBoolean, $resultBoolean);
-        // with assertThat
         assertThat($resultBoolean, equalTo($expectedBoolean));
 
         $expectedX = new X(null);
         $resultX = $expectedX;
-        $this->assertEquals($expectedX, $resultX);
-        // with assertThat
         assertThat($resultX, equalTo($expectedX));
     }
 
     public function testAssertTrue(): void
     {
         $resultBoolean = (bool)true;
-        $this->assertTrue($resultBoolean, "should be true");
-        $this->assertTrue($resultBoolean);
-        // with assertThat
         assertThat($resultBoolean, equalTo(true));
     }
 
     public function testAssertFalse(): void
     {
         $resultBoolean = (bool)false;
-        $this->assertFalse($resultBoolean, "should be true");
-        $this->assertFalse($resultBoolean);
-        // with assertThat
         assertThat($resultBoolean, equalTo(false));
     }
 
     public function testAssertNull(): void
     {
         $resultX = null;
-        $this->assertNull($resultX, "should be null");
-        $this->assertNull($resultX);
-        // with assertThat
         assertThat($resultX, nullValue());
     }
 
     public function testAssertNotNull(): void
     {
         $resultX = new X(null);
-        $this->assertNotNull($resultX, "should be not null");
-        $this->assertNotNull($resultX);
-        // with assertThat
         assertThat($resultX, not(nullValue()));
         assertThat($resultX, notNullValue());
     }
@@ -138,9 +111,6 @@ class AssertThatTest extends TestCase
     {
         $expectedX = new X(null);
         $resultX = $expectedX;
-        $this->assertSame($expectedX, $resultX, "should be same");
-        $this->assertSame($expectedX, $resultX);
-        // better than
         assertThat($resultX, sameInstance($resultX));
     }
 
@@ -148,9 +118,6 @@ class AssertThatTest extends TestCase
     {
         $expectedX = new X(null);
         $resultX = new X(null);
-        $this->assertNotSame($expectedX, $resultX, "should be distinct");
-        $this->assertNotSame($expectedX, $resultX);
-        // better than
         assertThat($resultX, not(sameInstance($expectedX)));
     }
 
@@ -158,11 +125,11 @@ class AssertThatTest extends TestCase
     {
         $expectedIntArray = [1, 2, 3];
         $resultIntArray = [1, 2, 3];
-        $this->assertEquals($expectedIntArray, $resultIntArray);
+        assertThat($expectedIntArray, equalTo($resultIntArray));
 
         $expectedXArray = [new X(null), new X(null), new X(null)];
         $resultXArray = [$expectedXArray[0], $expectedXArray[1], $expectedXArray[2]];
-        $this->assertEquals($expectedXArray, $resultXArray);
+        assertThat($expectedXArray, equalTo($resultXArray));
     }
 
     public function testAssertThatForRelational(): void
